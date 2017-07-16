@@ -7,17 +7,28 @@ provider:
   profile: sysadmin
   region: us-east-1
   memorySize: 128
-  timeout: 20
+  timeout: 30 # Change this to a sensible value later
+  vpc:
+    securityGroupIds:
+      - sg-daaf4ba6
+    subnetIds:
+      - subnet-b41ba888
+      - subnet-e372c0ef
+      - subnet-87a0c6dc
+      - subnet-c06009ed
+      - subnet-cf217f86
+      - subnet-751f9110
 
 package:
  include:
-   - node_modules/**
+   - ./node_modules/**
+   - ./lib/**
 
 functions:
   create:
     name: ${self:service}-${self:provider.stage}-create
     handler: create.action
-    description: The most basic aws lambda
+    description: Create Todo
     events:
       - http:
           path: ${self:service}/create
@@ -27,7 +38,7 @@ functions:
   read:
     name: ${self:service}-${self:provider.stage}-read
     handler: read.action
-    description: The most basic aws lambda
+    description: Read Todos
     events:
       - http:
           path: ${self:service}/read
@@ -37,7 +48,7 @@ functions:
   update:
     name: ${self:service}-${self:provider.stage}-update
     handler: update.action
-    description: The most basic aws lambda
+    description: Update Todo
     events:
       - http:
           path: ${self:service}/update
@@ -47,7 +58,7 @@ functions:
   remove:
     name: ${self:service}-${self:provider.stage}-remove
     handler: remove.action
-    description: The most basic aws lambda
+    description: Delete Todo
     events:
       - http:
           path: ${self:service}/remove

@@ -1,0 +1,11 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "Backend for reactuy todo list demo",
+  "main": "index.js",
+  "author": "mrcricket",
+  "license": "MIT",
+  "dependencies": {
+    "pg": "^6.4.1"
+  }
+}
