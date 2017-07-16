@@ -1,21 +1,62 @@
 import * as React from 'react';
-import './App.css';
+import * as uuid from 'uuid';
 
-const logo = require('./logo.svg');
+import TodoList from './containers/TodoList';
 
-class App extends React.Component<{}, {}> {
+interface Todo {
+    id: string;
+    task: string;
+}
+
+interface AppProps {}
+interface AppState {
+    processing: boolean;
+    todos: Todo[];
+}
+
+class App extends React.Component<AppProps, AppState> {
+    constructor(props: AppProps) {
+        super(props);
+        this.state = {
+            processing: false,
+            todos: [
+                {
+                    id: uuid.v4(),
+                    task: 'complete the demo!'
+                },
+                {
+                    id: uuid.v4(),
+                    task: 'Write tests!'
+                },
+                {
+                    id: uuid.v4(),
+                    task: 'Learn styled components'
+                },
+                {
+                    id: uuid.v4(),
+                    task: 'Did I say write tests?'
+                }
+            ]
+        };
+    }
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        <TodoList todos={this.state.todos} />
       </div>
     );
+  }
+
+  createTask(todo: Todo): void {
+    console.log('Craeting new task!');
+  }
+
+  deleteTask(id: string): void {
+    console.log('Deleting task!');
+  }
+
+  editTask(id: string, task: string): void {
+    console.log('Editing task!');
   }
 }
 
