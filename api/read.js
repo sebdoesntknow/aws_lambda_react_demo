@@ -2,6 +2,7 @@
 
 console.log('Running SQL /read');
 const pg = require('pg');
+const createResponse = require('./lib/utils').createResponse;
 
 module.exports.action = function(event, context, callback) {
     let response = {};
@@ -18,19 +19,13 @@ module.exports.action = function(event, context, callback) {
     const client = new pg.Client(config);
     client.connect((err) => {
         if (err) {
-            response = {
-                statusCode: 500,
-                body: JSON.stringify('Something went wrong while connecting to the database!')
-            };
+            response = createResponse(500, 'Something went wrong while connecting to the database!');
             callback(null, response);            
         }
 
         client.query('SELECT * FROM todos', [], (err, res) => {
             if (err) {
-                response = {
-                    statusCode: 500,
-                    body: JSON.stringify('Something went wrong while querying the database!')
-                };
+                response = createResponse(500, 'Something went wrong while querying the database!')
                 callback(null, response);
             }
 
@@ -41,17 +36,11 @@ module.exports.action = function(event, context, callback) {
                 };
             });
 
-            response = {
-                statusCode: 200,
-                body: JSON.stringify(data)
-            };
+            response = createResponse(200, data);
 
             client.end((err) => {
                 if (err) {
-                    response = {
-                        statusCode: 500,
-                        body: JSON.stringify('Error while disconnecting the PG client!')
-                    };
+                    response = createResponse(500, 'Error while disconnecting the PG client!');
                     callback(null, response); 
                 }
             });

@@ -55,13 +55,13 @@ functions:
           method: get
           cors: true
 
-  remove:
-    name: ${self:service}-${self:provider.stage}-remove
-    handler: remove.action
+  delete:
+    name: ${self:service}-${self:provider.stage}-delete
+    handler: delete.action
     description: Delete Todo
     events:
       - http:
-          path: ${self:service}/remove
+          path: ${self:service}/delete
           method: get
           cors: true
 
