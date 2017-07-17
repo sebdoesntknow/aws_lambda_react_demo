@@ -1,5 +1,6 @@
 import * as React from 'react';
-import * as uuid from 'uuid';
+// import * as uuid from 'uuid';
+import fetch from 'node-fetch';
 
 import TodoList from './containers/TodoList';
 
@@ -10,7 +11,9 @@ interface Todo {
 
 interface AppProps {}
 interface AppState {
-    processing: boolean;
+    processed: boolean;
+    success: boolean;
+    error: boolean;
     todos: Todo[];
 }
 
@@ -18,46 +21,65 @@ class App extends React.Component<AppProps, AppState> {
     constructor(props: AppProps) {
         super(props);
         this.state = {
-            processing: false,
-            todos: [
-                {
-                    id: uuid.v4(),
-                    task: 'complete the demo!'
-                },
-                {
-                    id: uuid.v4(),
-                    task: 'Write tests!'
-                },
-                {
-                    id: uuid.v4(),
-                    task: 'Learn styled components'
-                },
-                {
-                    id: uuid.v4(),
-                    task: 'Did I say write tests?'
-                }
-            ]
+            processed: true,
+            success: false,
+            error: false,
+            todos: []
         };
+
+        this.getTasks = this.getTasks.bind(this);
+        this.deleteTask = this.deleteTask.bind(this);
     }
-  render() {
-    return (
-      <div className="App">
-        <TodoList todos={this.state.todos} />
-      </div>
-    );
-  }
 
-  createTask(todo: Todo): void {
-    console.log('Craeting new task!');
-  }
+    componentDidMount() {
+      this.getTasks();
+    }
 
-  deleteTask(id: string): void {
-    console.log('Deleting task!');
-  }
+    render() {
+      return (
+        <div className="App">
+          <TodoList 
+            onDelete={this.deleteTask}
+            todos={this.state.todos}
+          />
+        </div>
+      );
+    }
 
-  editTask(id: string, task: string): void {
-    console.log('Editing task!');
-  }
+    createTask(todo: Todo): void {
+      // Set processing back to false once the service
+      // completes adding the task and returns a valid response
+      console.log('Craeting new task!');
+    }
+
+    getTasks() {
+      fetch('https://2db2fnr0cl.execute-api.us-east-1.amazonaws.com/dev/react/read')
+        .then((res) => {
+          return res.json();
+        })
+        .then(body => {
+          this.setState({
+            todos: [ ...body ]
+          });
+        })
+        .catch(console.error.bind(console));
+    }
+
+    deleteTask(id: string): void {
+      console.log('DELETING ITEM:', id);
+      fetch(`https://2db2fnr0cl.execute-api.us-east-1.amazonaws.com/dev/react/delete?id=${id}`)
+        .then((res) => {
+          return res.json();
+        })
+        .then(body => {
+          this.getTasks();
+        })
+        .catch(console.error.bind(console));
+    }
+
+    editTask(id: string, task: string): void {
+      console.log('Editing task!');
+    }
 }
 
 export default App;

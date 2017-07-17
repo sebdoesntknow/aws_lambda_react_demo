@@ -16,8 +16,6 @@ function ButtonContainer(props: ButtonProps): JSX.Element {
 }
 
 const Button = styled(ButtonContainer)`
-    width: 2em;
-    height: 2em;
     border: 1px solid red;
     background-color: yellow;
 `;

@@ -9,13 +9,17 @@ interface Todo {
 
 interface ListProps {
     todos: Todo[];
+    onDelete: Function;
 }
 interface ListState {}
 
 class TodoListContainer extends React.Component<ListProps, ListState> {
     render() {
         return (
-            <TodoListPresenter todos={this.props.todos} />
+            <TodoListPresenter
+                onDelete={this.props.onDelete}
+                todos={this.props.todos}
+            />
         );
     }
 }
