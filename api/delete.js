@@ -1,6 +1,6 @@
 'use strict';
 
-console.log('Running SQL /remove');
+console.log('Running SQL /delete');
 const pg = require('pg');
 const createResponse = require('./lib/utils').createResponse;
 
