@@ -4,6 +4,8 @@ import Row from '../../components/Flexbox/RowComponent';
 
 import H2 from '../../components/Heading/h2';
 import Button from '../../components/Button';
+import Form from '../../components/Form';
+import Input from '../../components/Form/Input';
 
 const Wrapper = Row.extend`
     width: 100%;
@@ -43,14 +45,29 @@ const DeleteButton = Button.extend`
     visibility: hidden;
 `;
 
-const AddButton = Button.extend`
+const AddTaskForm = Form.extend`
+    display: flex;
     order: 2;
     flex: 0 100%;
-    background-color: papayawhip;
-    border: 2px solid skyblue;
     border-radius: 3px;
-    font-size: 3em;
+    height: 5em;
+
+    &:hover {
+        box-shadow: 0 2px 12px 0 #8fa8c4;
+        border: solid 3px #01a9f4;
+    }
+`;
+
+const TaskField = Input.extend`
+    flex: 1 100%;
+    font-family: Poppins;
+    font-size: 1.5em;
     color: black;
+    background-color: palevioletred;
+`;
+const Submit = Input.extend`
+    font-size: 2em;
+    margin: auto;
 `;
 
 interface Todo {
@@ -60,7 +77,10 @@ interface Todo {
 
 interface TodoListPresenterProps {
     todos: Todo[];
+    task: string;
     onDelete: Function;
+    onAddTask: Function;
+    onChange: Function;
 }
 
 export default (props: TodoListPresenterProps) => {
@@ -75,7 +95,10 @@ export default (props: TodoListPresenterProps) => {
                         </ListItemWrapper>
                     );
                 })}
-            <AddButton onButtonClick={() => console.log('clicked Add task!')}>+</AddButton>
+            <AddTaskForm handleSubmit={props.onAddTask}>
+                <TaskField placeholder={'Type a task...'} value={props.task} onChange={props.onChange} />
+                <Submit type="submit" value="Add" />
+            </AddTaskForm>
             </ListWrapper>
         </Wrapper>
     );

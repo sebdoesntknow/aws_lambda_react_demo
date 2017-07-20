@@ -1,5 +1,5 @@
 import * as React from 'react';
-// import * as uuid from 'uuid';
+import * as uuid from 'uuid';
 import fetch from 'node-fetch';
 
 import TodoList from './containers/TodoList';
@@ -14,6 +14,7 @@ interface AppState {
     processed: boolean;
     success: boolean;
     error: boolean;
+    task: string;
     todos: Todo[];
 }
 
@@ -24,11 +25,14 @@ class App extends React.Component<AppProps, AppState> {
             processed: true,
             success: false,
             error: false,
+            task: '',
             todos: []
         };
 
         this.getTasks = this.getTasks.bind(this);
         this.deleteTask = this.deleteTask.bind(this);
+        this.handleTaskChange = this.handleTaskChange.bind(this);
+        this.createTask = this.createTask.bind(this);
     }
 
     componentDidMount() {
@@ -38,18 +42,37 @@ class App extends React.Component<AppProps, AppState> {
     render() {
       return (
         <div className="App">
-          <TodoList 
+          <TodoList
+            task={this.state.task}
             onDelete={this.deleteTask}
+            onAddTask={this.createTask}
+            onChange={this.handleTaskChange}
             todos={this.state.todos}
           />
         </div>
       );
     }
 
-    createTask(todo: Todo): void {
-      // Set processing back to false once the service
-      // completes adding the task and returns a valid response
-      console.log('Craeting new task!');
+    createTask(event: any): void {
+      let createService = `https://2db2fnr0cl.execute-api.us-east-1.amazonaws.com/dev/react/create`;
+      event.preventDefault();
+      fetch(`${createService}?id=${uuid.v4()}&task=${this.state.task}`)
+        .then((res) => {
+          this.setState({
+            task: ''
+          });
+          return res.json();
+        })
+        .then(() => {
+          this.getTasks();
+        })
+        .catch(console.error.bind(console));
+    }
+
+    handleTaskChange(event: any) {
+      this.setState({
+        task: event.target.value
+      });
     }
 
     getTasks() {
