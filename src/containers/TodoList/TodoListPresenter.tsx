@@ -43,12 +43,14 @@ const DeleteButton = Button.extend`
     background: transparent;
     color: red;
     visibility: hidden;
+    border: none;
+    font-size: 1em;
 `;
 
 const AddTaskForm = Form.extend`
     display: flex;
+    flex: 1 100%;
     order: 2;
-    flex: 0 100%;
     border-radius: 3px;
     height: 5em;
 
