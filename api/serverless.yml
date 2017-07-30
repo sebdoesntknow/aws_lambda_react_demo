@@ -32,7 +32,7 @@ functions:
     events:
       - http:
           path: ${self:service}/create
-          method: get
+          method: post
           cors: true
 
   read:

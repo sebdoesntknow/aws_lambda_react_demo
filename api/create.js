@@ -6,8 +6,11 @@ const createResponse = require('./lib/utils').createResponse;
 
 module.exports.action = (event, context, callback) => {
     let response = {};
-    let todoId = event.queryStringParameters.id;
-    let task = event.queryStringParameters.task;
+    // let todoId = event.queryStringParameters.id;
+    // let task = event.queryStringParameters.task;
+
+    let data = JSON.parse(event.body);
+    let { todoId, task } = data;
 
     const config = {
         user: event.stageVariables.dbuser,
