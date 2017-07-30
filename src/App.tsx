@@ -56,7 +56,7 @@ class App extends React.Component<AppProps, AppState> {
     createTask(event: any): void {
       let createService = `https://2db2fnr0cl.execute-api.us-east-1.amazonaws.com/dev/react/create`;
       event.preventDefault();
-      fetch(`${createService}`, { method: 'POST', body: JSON.stringify({todoId: uuid.v4(), task: 'something'})})
+      fetch(`${createService}`, { method: 'POST', body: JSON.stringify({todoId: uuid.v4(), task: event.target.value})})
         .then((res) => {
           this.setState({
             task: ''
