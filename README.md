@@ -1,8 +1,6 @@
 # AWS Lambda & Serverless + React DEMO
 
-## Backend and Frontend code are included in this same repo, the reason
-## behind is that it is just a demo so you can get an idea of how
-## to use serverless, AWS Lambda and wire them together with your Frontend
+## Backend and Frontend code are included in this same repo, the reason behind is that it is just a demo so you can get an idea of how to use serverless, AWS Lambda and wire them together with your Frontend
 
 ## Requirements:
 1. A working AWS profile with access to AWS Lambda and API Gateway so you can deploy using [Serverless](https://serverless.com/framework/docs/)
@@ -23,8 +21,7 @@
 
 ### Edit `serverless.yml` under `./api` directory and add your AWS profile next to the `profile:` key, then deploy your stack with the following command
 
-`cd ./api
-serverless deploy -v`
+`cd ./api; serverless deploy -v`
 
 ### Everything is already deployed, you modify the code of one of the lambdas and need to redeploy that one function? No need to deploy everything again, just run:
 
